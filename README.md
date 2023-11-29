@@ -11,4 +11,4 @@ This is a simple implementation of the classic Tic-Tac-Toe game built during my 
 
 ## Technologies Used
 
-- **Programming Language:**HTML,CSS,Javascript
+- **Programming Language:**[HTML,CSS,Javascript]
