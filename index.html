@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+            height: 100vh;
+            margin: 0;
+            background: url('https://img.freepik.com/free-vector/space-game-background-with-landscape-planet_107791-1700.jpg'); /* Replace 'background.jpg' with your image file */
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #333;
+            transition: background-color 0.3s;
+        }
+
+        .cell:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #game-name {
+            font-size: 34px;
+            font-weight: bold;
+            color: rgb(160, 20, 69);
+            margin-bottom: 30px 0;
+            align-self: center;
+        }
+
+        #game-board {
+            margin-top: 20px; 
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
+
+
+    </style>
+    <title>Tic-Tac-Toe</title>
+</head>
+<body>
+    <div id="game-name">Tic Tac Toe</div>
+    <div id="game-board"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const board = document.getElementById('game-board');
+            let currentPlayer = 'X';
+            const cells = [];
+
+            
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.index = i;
+                cell.addEventListener('click', handleCellClick);
+                cells.push(cell);
+                board.appendChild(cell);
+            }
+
+            function handleCellClick(event) {
+                const clickedCell = event.target;
+
+              
+                if (clickedCell.textContent !== '' || checkForWinner()) {
+                    return;
+                }
+
+                
+                clickedCell.textContent = currentPlayer;
+
+
+                if (checkForWinner()) {
+                    alert(`Player ${currentPlayer} wins!`);
+                    resetGame();
+                } else if (isBoardFull()) {
+                    alert("It's a draw!");
+                    resetGame();
+                } else {
+                    
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+
+            function checkForWinner() {
+                const winningCombos = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                    [0, 4, 8], [2, 4, 6]             // Diagonals
+                ];
+
+                return winningCombos.some(combo => {
+                    const [a, b, c] = combo;
+                    return cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent;
+                });
+            }
+
+            // if the board is full
+            function isBoardFull() {
+                return cells.every(cell => cell.textContent !== '');
+            }
+
+            // Reset the game
+            function resetGame() {
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                });
+                currentPlayer = 'X';
+            }
+        });
+    </script>
+</body>
+</html>
